@@ -1,0 +1,59 @@
+{
+  "name": "status-bar",
+  "author": "lumine-code",
+  "version": "1.0.0",
+  "description": "Host the status bar at the bottom of the workspace and provide a tile service.",
+  "keywords": [
+    "tile",
+    "indicator",
+    "workspace",
+    "bottom",
+    "footer"
+  ],
+  "repository": "https://github.com/lumine-code/status-bar",
+  "bugs": {
+    "url": "https://github.com/lumine-code/status-bar/issues"
+  },
+  "license": "MIT",
+  "main": "./lib/main",
+  "engines": {
+    "lumine": "^1.0.0"
+  },
+  "scripts": {
+    "test": "lumine --test spec",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "configSchema": {
+    "fullWidth": {
+      "title": "Full-width",
+      "description": "Fit the status-bar to the window's full-width",
+      "type": "boolean",
+      "default": true
+    },
+    "isVisible": {
+      "title": "Is Visible",
+      "description": "Show status bar at the bottom of the workspace",
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "providedServices": {
+    "status-bar": {
+      "description": "A container for indicators at the bottom of the workspace",
+      "versions": {
+        "1.0.0": "provideStatusBar"
+      }
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^18.2.2",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.6"
+  }
+}
