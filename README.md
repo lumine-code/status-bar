@@ -14,7 +14,7 @@ To install `status-bar` search for _status-bar_ in the Install pane of the Lumin
 
 ## Commands
 
-Commands available in `atom-workspace`:
+Commands available in `lumine-workspace`:
 
 - `status-bar:toggle`: show or hide the status bar at the bottom of the workspace.
 

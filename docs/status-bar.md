@@ -42,15 +42,15 @@ type Tile = {
 };
 ```
 
-| Option     | Type   | Description                                                                                                                              |
-| ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `item`     | any    | Required. Rendered through `atom.views.getView(item)`, so an `HTMLElement` works directly and a model works if it has a registered view. |
-| `priority` | number | Position within the panel. Defaults to one past the last tile, which puts you innermost — always pass one instead.                       |
+| Option     | Type   | Description                                                                                                                                |
+| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `item`     | any    | Required. Rendered through `lumine.views.getView(item)`, so an `HTMLElement` works directly and a model works if it has a registered view. |
+| `priority` | number | Position within the panel. Defaults to one past the last tile, which puts you innermost — always pass one instead.                         |
 
 ## Minimal example
 
 ```js
-const { Disposable } = require("atom");
+const { Disposable } = require("lumine");
 
 module.exports = {
   consumeStatusBar(statusBar) {

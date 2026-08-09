@@ -12,7 +12,7 @@ describe("StatusBarView", function () {
   beforeEach(function () {
     statusBarView = new StatusBarView();
 
-    atom.views.addViewProvider(TestItem, function (model) {
+    lumine.views.addViewProvider(TestItem, function (model) {
       const element = document.createElement("item-view");
       element.model = model;
       return element;
