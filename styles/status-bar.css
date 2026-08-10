@@ -26,45 +26,61 @@ status-bar {
     justify-content: space-between;
   }
 
-  /* Use 1/3 of space -> will get cut-off first when narrow */
-  .status-bar-left {
-    flex: 1 1 33%;
-  }
-
-  /* Use 2/3 of space */
-  .status-bar-right {
-    padding-left: var(--component-padding);
-    .inline-block {
-      margin-right: 0;
-      margin-left: calc(var(--component-padding) * 1.5);
-      & > .inline-block {
-        margin-left: 0;
-      }
-    }
-  }
-
-  /* Add horizontal overflow scrolling */
+  /* Each panel lays its tiles out in a row and owns the space between them.
+     `gap` is the one place that spacing is written, so a tile can be added,
+     hidden or destroyed without leaving a stranded margin behind — which is
+     what a per-tile margin did, and why the two panels used to cancel each
+     other's out by hand. Horizontal overflow scrolls; vertical must not, so a
+     badly behaved tile cannot scroll the bar itself. */
   .status-bar-left,
   .status-bar-right {
+    display: flex;
+    align-items: center;
     overflow-x: auto;
-    /* prevent badly behaved status bar items from causing vertical scrolling
-       in the status bar. They can always implement overflow: auto to scroll
-       within themselves. */
     overflow-y: hidden;
+
     &::-webkit-scrollbar {
       display: none;
     }
   }
 
-  /* Limit inline-blocks from getting too long */
-  .inline-block {
+  /* Use 1/3 of space -> will get cut-off first when narrow */
+  .status-bar-left {
+    flex: 1 1 33%;
+    gap: var(--component-padding);
+  }
+
+  /* Use 2/3 of space */
+  .status-bar-right {
+    padding-left: var(--component-padding);
+    gap: calc(var(--component-padding) * 1.5);
+  }
+
+  /* A tile is the element the bar hosts, marked with `.status-bar-item` when it
+     is inserted. Never key a tile's look on `.inline-block`: that is a layout
+     utility packages also use *inside* a tile, so it cannot say where one
+     starts. Limit a tile from getting too long; `min-width: 0` is what lets a
+     flex item shrink far enough for the ellipsis to appear. */
+  .status-bar-item {
+    min-width: 0;
     max-width: 20vw;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  /* remove padding from buttons */
+  /* `.inline-block` is a layout utility, and packages reach for it *inside* a
+     tile to lay out a row of labels. Its right margin is a page-layout size;
+     in a one-line strip the panel's gap and the tile's padding do all the
+     spacing, so neutralise it wherever it turns up. */
+  .inline-block {
+    margin: 0;
+  }
+
+  /* A tile may be a real <button>, or portal one inside itself the way
+     git-panel and github-panel do. Either way the button widget's own
+     horizontal padding has no place in the strip. */
+  button.status-bar-item,
   button.inline-block {
     padding-left: 0;
     padding-right: 0;
@@ -101,11 +117,9 @@ status-bar {
 /* Status-bar item contracts. Packages can opt out of interaction feedback or
    mark icon-only tiles without depending on a particular UI theme. */
 .status-bar.status-bar {
-  .is-read-only {
+  .status-bar-item.is-read-only {
     &:hover,
-    &:active,
-    .inline-block:hover,
-    .inline-block:active {
+    &:active {
       background-color: transparent;
     }
   }
