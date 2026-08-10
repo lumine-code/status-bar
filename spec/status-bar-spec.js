@@ -1,16 +1,13 @@
 describe("Status Bar package", function () {
   let [, statusBar, statusBarService, workspaceElement, mainModule] = [];
 
-  beforeEach(function () {
+  beforeEach(async () => {
     workspaceElement = lumine.views.getView(lumine.workspace);
 
-    waitsForPromise(() =>
-      lumine.packages.activatePackage("status-bar").then(function (pack) {
-        statusBar = workspaceElement.querySelector("status-bar");
-        statusBarService = pack.mainModule.provideStatusBar();
-        return ({ mainModule } = pack);
-      }),
-    );
+    const pack = await lumine.packages.activatePackage("status-bar");
+    statusBar = workspaceElement.querySelector("status-bar");
+    statusBarService = pack.mainModule.provideStatusBar();
+    return ({ mainModule } = pack);
   });
 
   describe("@activate()", () =>
@@ -21,9 +18,9 @@ describe("Status Bar package", function () {
     }));
 
   describe("@deactivate()", () =>
-    it("removes the status bar view", function () {
-      waitsForPromise(() => Promise.resolve(lumine.packages.deactivatePackage("status-bar"))); // Wrapped so works with Promise & non-Promise deactivate
-      runs(() => expect(workspaceElement.querySelector("status-bar")).toBeNull());
+    it("removes the status bar view", async () => {
+      await Promise.resolve(lumine.packages.deactivatePackage("status-bar")); // Wrapped so works with Promise & non-Promise deactivate
+      expect(workspaceElement.querySelector("status-bar")).toBeNull();
     }));
 
   describe("isVisible option", function () {
@@ -69,11 +66,11 @@ describe("Status Bar package", function () {
   describe("full-width setting", function () {
     let [containers] = [];
 
-    beforeEach(function () {
+    beforeEach(async () => {
       containers = lumine.workspace.panelContainers;
       jasmine.attachToDOM(workspaceElement);
 
-      return waitsForPromise(() => lumine.workspace.open("sample.js"));
+      await lumine.workspace.open("sample.js");
     });
 
     it("expects the setting to be enabled by default", function () {
