@@ -78,12 +78,14 @@ status-bar {
   }
 
   /* A tile may be a real <button>, or portal one inside itself the way
-     git-panel and github-panel do. Either way the button widget's own
-     horizontal padding has no place in the strip. */
+     git-panel and github-panel do. Either way the button widget brings a box
+     of its own — padding, and a line height that does not follow the strip's.
+     Neither belongs here: a tile is a fixed-height line box, and its own line
+     height is what centres whatever it holds. */
   button.status-bar-item,
-  button.inline-block {
-    padding-left: 0;
-    padding-right: 0;
+  .status-bar-item button {
+    padding: 0;
+    line-height: inherit;
   }
 
   /* All icons are smaller than normal (normal is 16px): scale the icon
