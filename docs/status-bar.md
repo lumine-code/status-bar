@@ -55,7 +55,6 @@ const { Disposable } = require("lumine");
 module.exports = {
   consumeStatusBar(statusBar) {
     const element = document.createElement("div");
-    element.classList.add("inline-block");
     element.textContent = "ready";
 
     const tile = statusBar.addRightTile({ item: element, priority: 310 });
@@ -63,6 +62,19 @@ module.exports = {
   },
 };
 ```
+
+## Styling
+
+**The bar stamps `.status-bar-item` on the element it hosts, and removes it again when the tile is destroyed.** That class is what makes a tile a tile: themes key their padding, height, rounding and hover feedback on it, so your element needs no class of its own to look like everything else in the bar. Add one only to style your own content.
+
+Do **not** reach for `.inline-block` to mark the tile. It is a layout utility from core's `layout.css` (`display: inline-block` plus a right margin), useful _inside_ a tile for laying out a row of labels, and packages use it that way. It says nothing about where a tile starts, and a nested one is not a second tile.
+
+Two contract classes are honoured on the hosted element:
+
+| Class          | Effect                                                                                   |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| `is-read-only` | Suppresses hover and press feedback, for a tile that only reports and cannot be clicked. |
+| `is-icon-only` | On an `.icon`, drops the trailing margin its label would otherwise need.                 |
 
 ## Tile priorities
 

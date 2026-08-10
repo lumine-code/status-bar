@@ -114,4 +114,47 @@ describe("StatusBarView", function () {
         expect(rightPanel.children[1].model).toBe(testItem1);
       }));
   });
+
+  describe("the tile class", function () {
+    it("stamps it on a left tile's view", function () {
+      const testItem = new TestItem(1);
+      statusBarView.addLeftTile({ item: testItem, priority: 10 });
+
+      expect(statusBarView.leftPanel.children[0].classList).toContain("status-bar-item");
+    });
+
+    it("stamps it on a right tile's view", function () {
+      const testItem = new TestItem(1);
+      statusBarView.addRightTile({ item: testItem, priority: 10 });
+
+      expect(statusBarView.rightPanel.children[0].classList).toContain("status-bar-item");
+    });
+
+    // The bar hands the element back to whoever gave it, so it must not keep
+    // a class that says the element is still hosted.
+    it("removes it again when the tile is destroyed", function () {
+      const testItem = new TestItem(1);
+      const tile = statusBarView.addLeftTile({ item: testItem, priority: 10 });
+      const element = lumine.views.getView(testItem);
+      tile.destroy();
+
+      expect(element.classList).not.toContain("status-bar-item");
+    });
+
+    // A tile is the element the bar hosts, never a block nested inside one:
+    // packages use `.inline-block` for layout within a tile, so a theme keying
+    // on that paints the nesting as a second tile.
+    it("does not stamp anything the item nests inside itself", function () {
+      const testItem = new TestItem(1);
+      const element = lumine.views.getView(testItem);
+      const inner = document.createElement("a");
+      inner.classList.add("inline-block");
+      element.appendChild(inner);
+
+      statusBarView.addLeftTile({ item: testItem, priority: 10 });
+
+      expect(element.classList).toContain("status-bar-item");
+      expect(inner.classList).not.toContain("status-bar-item");
+    });
+  });
 });
