@@ -86,6 +86,7 @@ status-bar {
   .status-bar-item button {
     padding: 0;
     line-height: inherit;
+    cursor: inherit;
   }
 
   /* All icons are smaller than normal (normal is 16px): scale the icon

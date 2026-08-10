@@ -76,6 +76,20 @@ Two contract classes are honoured on the hosted element:
 | `is-read-only` | Suppresses hover and press feedback, for a tile that only reports and cannot be clicked. |
 | `is-icon-only` | On an `.icon`, drops the trailing margin its label would otherwise need.                 |
 
+The bar normalises what a widget would otherwise drag in with it. A `<button>` — your tile, or one nested inside it — loses its padding, its own line height and its pointer cursor, so it reads as part of the strip rather than as a control dropped into it. `.inline-block`'s right margin is zeroed wherever it appears here: a panel spaces its tiles with `gap`, and a page-layout margin has no place in a one-line strip.
+
+**A theme may give tiles a fixed height**, and a tile's line height is then what centres its content. That works for text and for the icon contract, but not for an element that is itself `inline-block` — it aligns on the baseline and hangs low. If your tile is a wrapper around content, say what you mean:
+
+```css
+.my-package-StatusTile {
+  display: flex;
+  align-items: center;
+  gap: var(--component-padding);
+}
+```
+
+And never paint a background inside a tile with `background-color: inherit`. It resolves to the tile's _computed_ background, so on hover it repaints the theme's translucent colour over itself and the two layers composite into a darker rectangle inside the tile. Use `transparent`.
+
 ## Tile priorities
 
 **A lower priority sits closer to its panel's outer edge.** On the left panel that means further left; on the right panel it means further right. Tiles with equal priorities fall back to activation order, which is not stable, so every tile should carry its own number.
