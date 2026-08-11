@@ -54,7 +54,8 @@ const { Disposable } = require("lumine");
 
 module.exports = {
   consumeStatusBar(statusBar) {
-    const element = document.createElement("div");
+    const element = document.createElement("status-bar-tile");
+    element.classList.add("my-package-status");
     element.textContent = "ready";
 
     const tile = statusBar.addRightTile({ item: element, priority: 310 });
@@ -63,11 +64,26 @@ module.exports = {
 };
 ```
 
-## Styling
+## Anatomy of a tile
 
-**The bar stamps `.status-bar-item` on the element it hosts, and removes it again when the tile is destroyed.** That class is what makes a tile a tile: themes key their padding, height, rounding and hover feedback on it, so your element needs no class of its own to look like everything else in the bar. Add one only to style your own content.
+Every tile in the bar has the same shape. Following it is not enforced — the bar hosts whatever you hand it — but a tile that departs from it is the one that looks wrong under somebody else's theme.
 
-Do **not** reach for `.inline-block` to mark the tile. It is a layout utility from core's `layout.css` (`display: inline-block` plus a right margin), useful _inside_ a tile for laying out a row of labels, and packages use it that way. It says nothing about where a tile starts, and a nested one is not a second tile.
+```html
+<status-bar-tile class="my-package-status">
+  <span class="icon icon-alert"></span>
+  <span class="my-package-status-label">3</span>
+</status-bar-tile>
+```
+
+**The root is `<status-bar-tile>`.** A plain custom element, deliberately not a `<button>`: it drags in no widget padding, line height, cursor or focus ring for the bar to strip back out, and it names itself in the inspector. Your own class goes on it and is what your stylesheet targets.
+
+**One tile is one control** — one click target, one tooltip, one hover rectangle. Bind the click to the tile itself, never to a child.
+
+**Content is inline.** An optional `.icon` span, an optional label span, no wrapper element around them. A tile that genuinely composes several parts uses `display: flex; align-items: center; gap:` on the tile itself. Never give a child `.inline-block`: that is a layout utility from core's `layout.css`, and inside a fixed-height tile it aligns on the baseline and hangs past the bottom edge.
+
+**The bar stamps `.status-bar-item` on what it hosts** and removes it again when the tile is destroyed. That class is what a theme keys its padding, height, rounding and hover feedback on, so your tile needs no styling of its own to match the bar.
+
+**Never paint a background inside a tile with `background-color: inherit`.** It resolves to the tile's _computed_ background, so on hover it repaints the theme's translucent colour over itself and the two layers composite into a darker rectangle inside the tile. Use `transparent`.
 
 Two contract classes are honoured on the hosted element:
 
@@ -78,17 +94,22 @@ Two contract classes are honoured on the hosted element:
 
 The bar normalises what a widget would otherwise drag in with it. A `<button>` — your tile, or one nested inside it — loses its padding, its own line height and its pointer cursor, so it reads as part of the strip rather than as a control dropped into it. `.inline-block`'s right margin is zeroed wherever it appears here: a panel spaces its tiles with `gap`, and a page-layout margin has no place in a one-line strip.
 
-**A theme may give tiles a fixed height**, and a tile's line height is then what centres its content. That works for text and for the icon contract, but not for an element that is itself `inline-block` — it aligns on the baseline and hangs low. If your tile is a wrapper around content, say what you mean:
+### Several controls in one entry
 
-```css
-.my-package-StatusTile {
-  display: flex;
-  align-items: center;
-  gap: var(--component-padding);
-}
+Related controls that travel together — a push and a pull button, a row of counters — are still one control each, so each is a tile, and a group carries them in:
+
+```html
+<status-bar-tile-group class="my-package-status">
+  <status-bar-tile class="my-package-count-error">…</status-bar-tile>
+  <status-bar-tile class="my-package-count-warning">…</status-bar-tile>
+</status-bar-tile-group>
 ```
 
-And never paint a background inside a tile with `background-color: inherit`. It resolves to the tile's _computed_ background, so on hover it repaints the theme's translucent colour over itself and the two layers composite into a darker rectangle inside the tile. Use `transparent`.
+Hand the **group** to `addLeftTile`/`addRightTile`. It is a layout box and never a tile itself: the bar marks its `<status-bar-tile>` children instead, so a theme paints one rectangle per control rather than one across the whole group and a second inside it. Do not write `.status-bar-item` yourself — the bar owns that mark, and it watches the group, so children your package renders a frame later through React or etch are marked when they arrive.
+
+The group is laid out for you (`display: flex; align-items: center`) and inherits the panel's own `gap`, so a theme that butts its tiles together gets these butted too.
+
+**One exception exists in the fleet**, written down so an audit does not re-flag it: `busy-signal` registers a real custom element whose class _is_ the component, and keeps its own tag as its tile root.
 
 ## Tile priorities
 

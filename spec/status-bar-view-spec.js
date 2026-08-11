@@ -141,6 +141,43 @@ describe("StatusBarView", function () {
       expect(element.classList).not.toContain("status-bar-item");
     });
 
+    // A group carries several controls in as one entry. It is a layout box, so
+    // the mark belongs on each control: left on the group, a theme paints one
+    // rectangle across the lot and a second inside it.
+    it("stamps a group's tiles rather than the group", function () {
+      const group = document.createElement("status-bar-tile-group");
+      const first = document.createElement("status-bar-tile");
+      const second = document.createElement("status-bar-tile");
+      group.appendChild(first);
+      group.appendChild(second);
+
+      const tile = statusBarView.addLeftTile({ item: group, priority: 10 });
+
+      expect(group.classList).not.toContain("status-bar-item");
+      expect(first.classList).toContain("status-bar-item");
+      expect(second.classList).toContain("status-bar-item");
+
+      tile.destroy();
+      expect(first.classList).not.toContain("status-bar-item");
+      expect(second.classList).not.toContain("status-bar-item");
+    });
+
+    // A package rendering through React or etch hands the bar an empty box and
+    // fills it a frame later, so the group is watched rather than read once.
+    it("stamps a tile a group gains after it was added", async function () {
+      const group = document.createElement("status-bar-tile-group");
+      statusBarView.addLeftTile({ item: group, priority: 10 });
+
+      const late = document.createElement("status-bar-tile");
+      group.appendChild(late);
+      // A MutationObserver delivers on the microtask checkpoint, which is what
+      // this awaits — the spec runner freezes `setTimeout`, so a timer here
+      // would never fire.
+      await Promise.resolve();
+
+      expect(late.classList).toContain("status-bar-item");
+    });
+
     // A tile is the element the bar hosts, never a block nested inside one:
     // packages use `.inline-block` for layout within a tile, so a theme keying
     // on that paints the nesting as a second tile.

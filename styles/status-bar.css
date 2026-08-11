@@ -56,6 +56,17 @@ status-bar {
     gap: calc(var(--component-padding) * 1.5);
   }
 
+  /* A group carries several controls into the bar as one entry. It is a layout
+     box and never a tile: the bar marks its `<status-bar-tile>` children
+     instead, so a theme paints one rectangle per control rather than one across
+     the group and a second inside it. It inherits the panel's own gap, so a
+     theme that butts its tiles together gets these butted too. */
+  status-bar-tile-group {
+    display: flex;
+    align-items: center;
+    gap: inherit;
+  }
+
   /* A tile is the element the bar hosts, marked with `.status-bar-item` when it
      is inserted. Never key a tile's look on `.inline-block`: that is a layout
      utility packages also use *inside* a tile, so it cannot say where one
