@@ -178,6 +178,35 @@ describe("StatusBarView", function () {
       expect(late.classList).toContain("status-bar-item");
     });
 
+    // A component that owns its `className` — anything rendered by React or
+    // etch — rewrites the whole attribute on every render, erasing a mark
+    // written from outside. That is not a childList change, so watching the
+    // tree alone never notices it.
+    it("stamps again when a tile's class is rewritten from under it", async function () {
+      const testItem = new TestItem(1);
+      statusBarView.addLeftTile({ item: testItem, priority: 10 });
+      const element = lumine.views.getView(testItem);
+
+      element.className = "rendered-again";
+      await Promise.resolve();
+
+      expect(element.classList).toContain("status-bar-item");
+      expect(element.classList).toContain("rendered-again");
+    });
+
+    it("stamps a group's tile again when its class is rewritten", async function () {
+      const group = document.createElement("status-bar-tile-group");
+      const child = document.createElement("status-bar-tile");
+      group.appendChild(child);
+      statusBarView.addLeftTile({ item: group, priority: 10 });
+
+      child.className = "rendered-again";
+      await Promise.resolve();
+
+      expect(child.classList).toContain("status-bar-item");
+      expect(group.classList).not.toContain("status-bar-item");
+    });
+
     // A tile is the element the bar hosts, never a block nested inside one:
     // packages use `.inline-block` for layout within a tile, so a theme keying
     // on that paints the nesting as a second tile.
