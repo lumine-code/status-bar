@@ -10,7 +10,7 @@ Host the status bar at the bottom of the workspace and provide a tile service.
 
 ## Installation
 
-To install `status-bar` search for _status-bar_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/status-bar`.
+To install `status-bar` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/status-bar`.
 
 ## Commands
 
@@ -73,7 +73,7 @@ status-bar {
 
 ## Services
 
-- **[status-bar](docs/status-bar.md)** (`1.0.0`): provided to host indicator tiles at the bottom of the workspace, with a left and right side other packages can add to.
+- [`status-bar`](docs/status-bar.md): provided to host indicator tiles at the bottom of the workspace, with a left and right side other packages can add to.
 
 ## Contributing
 
