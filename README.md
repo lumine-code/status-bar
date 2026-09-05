@@ -52,13 +52,12 @@ Right panel, from the right edge inwards:
 | 110      | Application       | settings-view                                                           |
 | 210–243  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240–243) |
 | 250      | Code intelligence | ide-client servers                                                      |
-| 310, 320 | Source control    | git-panel, github-panel                                                 |
 | 410–430  | File identity     | grammar-selector, encoding-selector, line-ending-selector               |
 | 510–530  | Observers         | latex-tools, typst-tools, prettier observed files                       |
 | 610      | Activity          | busy-signal                                                             |
 | 710, 720 | Warnings          | deprecation-cop, incompatible-packages                                  |
 
-Two bands share the 200s: the editor modes take 210–243 and code intelligence 250. They are adjacent kinds — both answer "what is this window doing to my file right now" — and the language-server item belongs outside source control rather than among the observers, since it is always present.
+Two bands share the 200s: the editor modes take 210–243 and code intelligence 250. They are adjacent kinds — both answer "what is this window doing to my file right now" — and the language-server item belongs outside file identity rather than among the observers, since it is always present.
 
 ## Customization
 

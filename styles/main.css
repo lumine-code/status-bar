@@ -88,9 +88,9 @@ status-bar {
     margin: 0;
   }
 
-  /* A tile may be a real <button>, or portal one inside itself the way
-     git-panel and github-panel do. Either way the button widget brings a box
-     of its own — padding, and a line height that does not follow the strip's.
+  /* A tile may be a real <button>, or a package may portal one inside another
+     host. Either way the button widget brings a box of its own — padding, and
+     a line height that does not follow the strip's.
      Neither belongs here: a tile is a fixed-height line box, and its own line
      height is what centres whatever it holds. */
   button.status-bar-item,
