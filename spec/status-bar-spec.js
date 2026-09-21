@@ -61,6 +61,16 @@ describe("Status Bar package", function () {
       lumine.commands.dispatch(workspaceElement, "status-bar:toggle");
       expect(lumine.config.get("status-bar.isVisible")).toBe(true);
     });
+
+    it("has exactly one handler after reactivation", async function () {
+      await lumine.packages.deactivatePackage("status-bar");
+      await lumine.packages.activatePackage("status-bar");
+      lumine.config.set("status-bar.isVisible", true);
+
+      lumine.commands.dispatch(workspaceElement, "status-bar:toggle");
+
+      expect(lumine.config.get("status-bar.isVisible")).toBe(false);
+    });
   });
 
   describe("full-width setting", function () {
