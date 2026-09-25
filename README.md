@@ -37,13 +37,13 @@ Priorities are grouped into bands of 100, numbered from the outer edge inwards, 
 
 Left panel, from the left edge inwards:
 
-| Priority | Band             | Tiles                                                            |
-| -------- | ---------------- | ---------------------------------------------------------------- |
-| 110      | Diagnostics      | linter                                                           |
-| 210, 220 | Repository       | git-center repository, git-center branch                         |
-| 320      | File identity    | grammar-selector (when shown on the left)                        |
-| 410–450  | Language tooling | jupyter-repl, latex-tools, typst-tools, tasklist-tools, prettier |
-| 510, 520 | View info        | go-to-line cursor position, image-editor size                    |
+| Priority | Band             | Tiles                                                               |
+| -------- | ---------------- | ------------------------------------------------------------------- |
+| 110      | Diagnostics      | linter                                                              |
+| 210, 220 | Repository       | git-center repository, git-center branch                            |
+| 320      | File identity    | grammar-selector (when shown on the left)                           |
+| 410–450  | Language tooling | jupyter-repl, latex-tools, typst-tools, tasklist-tools, prettier    |
+| 510–530  | View info        | go-to-line cursor position, image-editor size, archive-view summary |
 
 Right panel, from the right edge inwards:
 
