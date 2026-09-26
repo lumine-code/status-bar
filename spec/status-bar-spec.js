@@ -100,6 +100,18 @@ describe("Status Bar package", function () {
         expect(containers.footer.panels).toContain(mainModule.statusBarPanel);
         expect(containers.bottom.panels).not.toContain(mainModule.statusBarPanel);
       });
+
+      it("keeps the status bar hidden when changing its width", function () {
+        lumine.config.set("status-bar.isVisible", false);
+
+        lumine.config.set("status-bar.fullWidth", false);
+        expect(containers.bottom.panels).toContain(mainModule.statusBarPanel);
+        expect(mainModule.statusBarPanel.isVisible()).toBe(false);
+
+        lumine.config.set("status-bar.fullWidth", true);
+        expect(containers.footer.panels).toContain(mainModule.statusBarPanel);
+        expect(mainModule.statusBarPanel.isVisible()).toBe(false);
+      });
     });
   });
 
