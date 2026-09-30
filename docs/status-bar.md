@@ -134,7 +134,7 @@ Right panel, from the right edge inwards:
 | 110      | Application       | settings-view                                                           |
 | 210–243  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240–243) |
 | 250      | Code intelligence | ide-client servers                                                      |
-| 410–430  | File identity     | grammar-selector, encoding-selector, line-ending-selector               |
+| 410–430  | File identity     | grammar-selector, encoding-selector, line-ending                        |
 | 510–530  | Observers         | latex-tools, typst-tools, prettier observed files                       |
 | 610      | Activity          | busy-signal                                                             |
 | 710, 720 | Warnings          | deprecation-cop, incompatible-packages                                  |
