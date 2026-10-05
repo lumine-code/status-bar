@@ -41,7 +41,7 @@ Left panel, from the left edge inwards:
 | -------- | ---------------- | ------------------------------------------------------------------- |
 | 110      | Diagnostics      | linter                                                              |
 | 210, 220 | Repository       | git-center repository, git-center branch                            |
-| 320      | File identity    | grammar-selector (when shown on the left)                           |
+| 320, 330 | File identity    | grammar-selector (when shown on the left), symbol source            |
 | 410–450  | Language tooling | jupyter-repl, latex-tools, typst-tools, tasklist-tools, prettier    |
 | 510–530  | View info        | go-to-line cursor position, image-editor size, archive-view summary |
 
@@ -52,7 +52,7 @@ Right panel, from the right edge inwards:
 | 110      | Application       | settings-view                                                           |
 | 210–243  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240–243) |
 | 250      | Code intelligence | ide-client servers                                                      |
-| 410–430  | File identity     | grammar-selector, encoding-selector, line-ending                        |
+| 405–430  | File identity     | symbol source, grammar-selector, encoding-selector, line-ending         |
 | 510–530  | Observers         | latex-tools, typst-tools, prettier observed files                       |
 | 610      | Activity          | busy-signal                                                             |
 | 710, 720 | Warnings          | deprecation-cop, incompatible-packages                                  |
