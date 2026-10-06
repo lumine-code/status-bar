@@ -39,8 +39,8 @@ Left panel, from the left edge inwards:
 
 | Priority | Band             | Tiles                                                               |
 | -------- | ---------------- | ------------------------------------------------------------------- |
-| 110      | Diagnostics      | linter                                                              |
-| 210, 220 | Repository       | git-center repository, git-center branch                            |
+| 110, 120 | Repository       | git-center repository, git-center branch                            |
+| 210      | Diagnostics      | linter                                                              |
 | 320, 330 | File identity    | grammar-selector (when shown on the left), symbol source            |
 | 410–450  | Language tooling | jupyter-repl, latex-tools, typst-tools, tasklist-tools, prettier    |
 | 510–530  | View info        | go-to-line cursor position, image-editor size, archive-view summary |
