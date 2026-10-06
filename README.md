@@ -51,7 +51,7 @@ Right panel, from the right edge inwards:
 | -------- | ----------------- | ----------------------------------------------------------------------- |
 | 110      | Application       | settings-view                                                           |
 | 210–243  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240–243) |
-| 250      | Code intelligence | ide-client servers                                                      |
+| 250      | Code intelligence | ide servers                                                             |
 | 405–430  | File identity     | symbol source, grammar-selector, encoding-selector, line-ending         |
 | 510–530  | Observers         | latex-tools, typst-tools, prettier observed files                       |
 | 610      | Activity          | busy-signal                                                             |
