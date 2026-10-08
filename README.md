@@ -2,6 +2,8 @@
 
 Host the status bar at the bottom of the workspace and provide a tile service.
 
+Fork of [pulsar-edit/pulsar](https://github.com/pulsar-edit/pulsar) (`packages/status-bar`).
+
 ## Features
 
 - **Tile host**: lets other packages add custom tiles to the left or right side of the bar, ordered by priority.
