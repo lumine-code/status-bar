@@ -153,6 +153,8 @@ The status bar itself lives in a bottom panel, or a footer panel when `status-ba
 
 **Always keep the returned tile and `destroy()` it on teardown.** Removing only the element leaves the tile in the bar's ordered collection, and the next insertion positioned against that detached item throws. `Tile.destroy()` does both: it splices the tile out of the collection and removes its view.
 
+Destroying a tile again is harmless. A retired handle cannot remove another tile or an item that has since been added through a new handle.
+
 ## Versioning
 
 `1.0.0` provided, `^1.0.0` consumed. A change that breaks this shape gets a new service name rather than a new major version, and both sides move in the same release.
