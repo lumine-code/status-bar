@@ -68,7 +68,7 @@ Restyle the status bar by adding CSS to your `styles.css`. For example, to enlar
 ```css
 status-bar {
   font-size: 13px;
-  border-top: 1px solid fade(#000, 20%);
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 ```
 
