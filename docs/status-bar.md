@@ -155,6 +155,8 @@ The status bar itself lives in a bottom panel, or a footer panel when `status-ba
 
 Destroying a tile again is harmless. A retired handle cannot remove another tile or an item that has since been added through a new handle.
 
+Deactivating the status bar retires its hosted tiles and disconnects their observers. Later cleanup through an old handle is harmless, including when the same element has been reused after reactivation.
+
 ## Versioning
 
 `1.0.0` provided, `^1.0.0` consumed. A change that breaks this shape gets a new service name rather than a new major version, and both sides move in the same release.
