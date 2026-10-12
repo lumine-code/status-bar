@@ -11,9 +11,9 @@ describe("Status Bar package", function () {
   });
 
   describe("@activate()", () =>
-    it("appends only one status bar", function () {
+    it("appends only one status bar", async function () {
       expect(workspaceElement.querySelectorAll("status-bar").length).toBe(1);
-      lumine.workspace.getActivePane().splitRight({ copyActiveItem: true });
+      lumine.workspace.getActivePane().splitRight();
       expect(workspaceElement.querySelectorAll("status-bar").length).toBe(1);
     }));
 
