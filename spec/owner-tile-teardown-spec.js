@@ -8,8 +8,8 @@ describe("Status Bar owned tile teardown", () => {
     spyOn(lumine.application, "openWindow").and.resolveTo();
     jasmine.attachToDOM(lumine.workspace.getElement());
     await lumine.packages.activatePackage("status-bar");
-    subscription = lumine.packages.serviceHub.consume("status-bar", "^1.0.0", (next) => {
-      service = next;
+    subscription = lumine.packages.serviceHub.consume("status-bar", "^2.0.0", (next) => {
+      service = next.forWindow(lumine.workspace.getMainWindow());
     });
     item = document.createElement("status-bar-tile");
     item.textContent = "Owned indicator";

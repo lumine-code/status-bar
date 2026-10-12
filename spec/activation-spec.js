@@ -24,7 +24,7 @@ describe("activation bootstrap", () => {
     const addBottomPanel = spyOn(lumine.workspace, "addBottomPanel").and.callThrough();
     const pack = await lumine.packages.activatePackage("status-bar");
     const { mainModule } = pack;
-    const service = mainModule.provideStatusBar();
+    const service = mainModule.provideStatusBar().forWindow(lumine.workspace.getMainWindow());
     const item = document.createElement("div");
 
     service.addLeftTile({ item });

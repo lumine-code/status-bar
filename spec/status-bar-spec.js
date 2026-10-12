@@ -6,7 +6,9 @@ describe("Status Bar package", function () {
 
     const pack = await lumine.packages.activatePackage("status-bar");
     statusBar = workspaceElement.querySelector("status-bar");
-    statusBarService = pack.mainModule.provideStatusBar();
+    statusBarService = pack.mainModule
+      .provideStatusBar()
+      .forWindow(lumine.workspace.getMainWindow());
     return ({ mainModule } = pack);
   });
 

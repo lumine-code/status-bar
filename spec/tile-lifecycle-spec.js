@@ -3,7 +3,7 @@ describe("Status bar tile lifetime", () => {
 
   beforeEach(async () => {
     const pack = await lumine.packages.activatePackage("status-bar");
-    bar = pack.mainModule.provideStatusBar();
+    bar = pack.mainModule.provideStatusBar().forWindow(lumine.workspace.getMainWindow());
     view = pack.mainModule.statusBar;
     jasmine.attachToDOM(lumine.workspace.getElement());
   });
@@ -47,7 +47,7 @@ describe("Status bar tile lifetime", () => {
     old.destroy();
     await lumine.packages.deactivatePackage("status-bar");
     const pack = await lumine.packages.activatePackage("status-bar");
-    bar = pack.mainModule.provideStatusBar();
+    bar = pack.mainModule.provideStatusBar().forWindow(lumine.workspace.getMainWindow());
     view = pack.mainModule.statusBar;
     const replacement = bar.addLeftTile({ item, priority: 2 });
     old.destroy();

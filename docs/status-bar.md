@@ -1,65 +1,74 @@
 # status-bar
 
-The status bar's tile collection: a package adds an element to the left or right panel and receives a handle that removes it again.
+Window-local status tiles with workspace-owned registrations and deterministic teardown.
 
-|             |                                                      |
-| ----------- | ---------------------------------------------------- |
-| Version     | `1.0.0`                                              |
-| Provided by | `provideStatusBar()` returning the four tile methods |
-| Consumed by | `consumeStatusBar(statusBar)`                        |
-| Owner       | `status-bar` (bundled)                               |
-
-This is the most widely consumed service in the workspace. Read [Tile priorities](#tile-priorities) before picking a number — the ordering is a shared convention, not a free-for-all.
+| | |
+| --- | --- |
+| Version | `2.0.0` |
+| Provided by | `provideStatusBar()` |
+| Consumed by | `consumeStatusBar(statusBar)` |
+| Owner | `status-bar` |
 
 ## Registration
 
-In your `package.json`:
-
-```json
-{
-  "consumedServices": {
-    "status-bar": {
-      "versions": { "^1.0.0": "consumeStatusBar" }
-    }
-  }
-}
-```
+Declare `"status-bar": { "versions": { "^2.0.0": "consumeStatusBar" } }` in `consumedServices`.
 
 ## Contract
 
 ```ts
-type StatusBar = {
+type WindowContext = {
+  window: EditorWindow;
+  document: Document;
+  workspace: Workspace;
+  editorContainer: PaneContainer;
+};
+type Contribution = { element: HTMLElement; dispose(): void };
+type Tile = { getItem(): unknown; getPriority(): number; destroy(): void };
+type ScopedStatusBar = {
   addLeftTile(options: { item: unknown; priority?: number }): Tile;
   addRightTile(options: { item: unknown; priority?: number }): Tile;
   getLeftTiles(): Tile[];
   getRightTiles(): Tile[];
 };
-
-type Tile = {
-  getItem(): unknown;
-  getPriority(): number;
-  destroy(): void;
+type TileOptions = {
+  create(context: WindowContext): Contribution;
+  windows?: "main" | "all";
+  priority?: number;
+};
+type StatusBar = {
+  addLeftTile(options: TileOptions): Disposable;
+  addRightTile(options: TileOptions): Disposable;
+  observeWindows(
+    create: (bar: ScopedStatusBar, context: WindowContext) => Disposable,
+    options?: { windows?: "main" | "all" }
+  ): Disposable;
+  forWindow(window: EditorWindow): ScopedStatusBar;
+  getLeftTiles(window?: EditorWindow): Tile[];
+  getRightTiles(window?: EditorWindow): Tile[];
 };
 ```
 
-| Option     | Type   | Description                                                                                                                                |
-| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `item`     | any    | Required. Rendered through `lumine.views.getView(item)`, so an `HTMLElement` works directly and a model works if it has a registered view. |
-| `priority` | number | Position within the panel. Defaults to one past the last tile, which puts you innermost — always pass one instead.                         |
+`create` is required for workspace registrations. `windows` defaults to `"main"`; `"all"` covers current and future editor windows. Every call creates a distinct DOM element and disposable subscriptions for that window. Use `context.editorContainer` for the local file or editor; `context.workspace` exposes shared documents and global editing activity.
+
+`observeWindows` owns a controller that can add, replace and remove several local tiles. Its callback returns a disposable that cleans up those tiles and subscriptions. `forWindow` exposes the same scoped collection when the caller already owns an explicit window lifecycle. Collection queries default to the main window.
 
 ## Minimal example
 
 ```js
-const { Disposable } = require("lumine");
-
 module.exports = {
   consumeStatusBar(statusBar) {
-    const element = document.createElement("status-bar-tile");
-    element.classList.add("my-package-status");
-    element.textContent = "ready";
-
-    const tile = statusBar.addRightTile({ item: element, priority: 310 });
-    return new Disposable(() => tile.destroy());
+    return statusBar.addRightTile({
+      windows: "all",
+      priority: 310,
+      create({ document, editorContainer }) {
+        const element = document.createElement("status-bar-tile");
+        element.classList.add("my-package-status");
+        const observation = editorContainer.observeActivePaneItem((item) => {
+          element.textContent = item?.getTitle?.() ?? "";
+        });
+        return { element, dispose: () => observation.dispose() };
+      },
+    });
   },
 };
 ```
@@ -151,7 +160,7 @@ The status bar itself lives in a bottom panel, or a footer panel when `status-ba
 
 ## Teardown
 
-**Always keep the returned tile and `destroy()` it on teardown.** Removing only the element leaves the tile in the bar's ordered collection, and the next insertion positioned against that detached item throws. `Tile.destroy()` does both: it splices the tile out of the collection and removes its view.
+**Dispose the workspace registration on teardown.** It releases every current instance and prevents factories from running for future windows. Scoped controllers keep their returned tiles and call `destroy()` on them. Removing only the element leaves the tile in the bar's ordered collection, and the next insertion positioned against that detached item throws. `Tile.destroy()` does both: it splices the tile out of the collection and removes its view.
 
 Destroying a tile again is harmless. A retired handle cannot remove another tile or an item that has since been added through a new handle.
 
@@ -159,4 +168,4 @@ Deactivating the status bar retires its hosted tiles and disconnects their obser
 
 ## Versioning
 
-`1.0.0` provided, `^1.0.0` consumed. A change that breaks this shape gets a new service name rather than a new major version, and both sides move in the same release.
+`2.0.0` replaces direct global tile insertion with window factories. Consumers request `^2.0.0`; the provider and consumers move together.

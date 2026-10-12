@@ -49,7 +49,7 @@
     "status-bar": {
       "description": "A container for indicators at the bottom of the workspace",
       "versions": {
-        "1.0.0": "provideStatusBar"
+        "2.0.0": "provideStatusBar"
       }
     }
   },
