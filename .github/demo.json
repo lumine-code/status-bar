@@ -1,0 +1,16 @@
+{
+  "title": "status-bar",
+  "description": "Read the cursor position, file format and project status at a glance.",
+  "recordedOn": "2026-10-13",
+  "sourceRevision": "83dbd35ed40cb157306f876398759fe5d79aec04",
+  "mode": "normal",
+  "fontSettings": "default",
+  "images": [
+    {
+      "file": "demo.png",
+      "label": "Read the cursor position, file format and project status at a glance.",
+      "width": 1200,
+      "height": 760
+    }
+  ]
+}

@@ -10,6 +10,8 @@ Fork of [pulsar-edit/pulsar](https://github.com/pulsar-edit/pulsar) (`packages/s
 - **Toggle**: show or hide the whole status bar with a command.
 - **Full-width**: fit the bar to the window width or to the active editor.
 
+![Read the cursor position, file format and project status at a glance.](.github/demo.png)
+
 ## Installation
 
 To install `status-bar` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/status-bar`.
