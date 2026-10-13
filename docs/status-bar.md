@@ -156,6 +156,8 @@ Tooltips briefly describe the current state and primary left-click action, and s
 
 Every interactive tile provides a context menu containing all its actions, including its primary left-click action. Middle click and modified left clicks may act as shortcuts to popular menu entries; right click only opens the menu. Informational tiles need no empty menu. Compute availability and checkbox or radio state when the menu opens, and resolve every action against the document and window the tile describes. Menu and mouse activation share command handlers; dispose menu registrations together with the tile. Fence each context-menu block with separators and set `data-context-menu-boundary` on a tile that owns its menu.
 
+Menu rows use the command that actually performs the named action. For editor-scoped bindings, set the row's `keyBindingTarget` to a function resolving the tile's owning editor, or `null` when that binding does not apply. A contextual wrapper with `commandDetail` can declare an equivalent public `keyBindingCommand`; a combined or behavior-changing action cannot borrow another command's shortcut. Resolve labels from current keymaps rather than hardcoding them, and expose distinct actions such as toggling visibility and focusing a panel as separate commands.
+
 Tiles are inserted in priority order at the moment you add them, so a tile added later still lands in the right place.
 
 The status bar itself lives in a bottom panel, or a footer panel when `status-bar.fullWidth` is on. A tile does not need to know which.
