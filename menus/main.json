@@ -1,0 +1,32 @@
+{
+  "menu": [
+    {
+      "label": "View",
+      "submenu": [
+        {
+          "label": "Toggle View",
+          "submenu": [
+            {
+              "label": "Status Bar",
+              "command": "status-bar:toggle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "Status Bar",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "status-bar:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
