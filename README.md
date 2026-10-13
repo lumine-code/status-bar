@@ -22,6 +22,8 @@ Commands available in `lumine-workspace`:
 
 ## Usage
 
+Right click an interactive tile to see all its actions. Left click performs its primary action; middle click or a modified left click may provide a shortcut to another menu action. Informational tiles have no actions.
+
 Packages add tiles through the `status-bar` service:
 
 ```js
