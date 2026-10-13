@@ -8,7 +8,9 @@
           "submenu": [
             {
               "label": "Status Bar",
-              "command": "status-bar:toggle"
+              "command": "status-bar:toggle",
+              "group": "chrome",
+              "order": 30
             }
           ]
         }
