@@ -2,12 +2,12 @@
 
 Window-local status tiles with workspace-owned registrations and deterministic teardown.
 
-| | |
-| --- | --- |
-| Version | `2.0.0` |
-| Provided by | `provideStatusBar()` |
+|             |                               |
+| ----------- | ----------------------------- |
+| Version     | `2.0.0`                       |
+| Provided by | `provideStatusBar()`          |
 | Consumed by | `consumeStatusBar(statusBar)` |
-| Owner | `status-bar` |
+| Owner       | `status-bar`                  |
 
 ## Registration
 
@@ -40,7 +40,7 @@ type StatusBar = {
   addRightTile(options: TileOptions): Disposable;
   observeWindows(
     create: (bar: ScopedStatusBar, context: WindowContext) => Disposable,
-    options?: { windows?: "main" | "all" }
+    options?: { windows?: "main" | "all" },
   ): Disposable;
   forWindow(window: EditorWindow): ScopedStatusBar;
   getLeftTiles(window?: EditorWindow): Tile[];
