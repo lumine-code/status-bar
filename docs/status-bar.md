@@ -152,6 +152,8 @@ Two bands share the 200s: the editor modes take 210–243 and code intelligence 
 
 ## Behavior
 
+Tooltips briefly describe the current state and primary left-click action without command names or shortcut badges. Put mouse shortcut hints on context-menu entries with `mouseBindingLabel`, for example `LMB`, `MMB`, `Alt+LMB` or `cmdorctrl+LMB`; the menu displays them alongside existing keyboard shortcuts.
+
 Every interactive tile provides a context menu containing all its actions, including its primary left-click action. Middle click and modified left clicks may act as shortcuts to popular menu entries; right click only opens the menu. Informational tiles need no empty menu. Compute availability and checkbox or radio state when the menu opens, and resolve every action against the document and window the tile describes. Menu and mouse activation share command handlers; dispose menu registrations together with the tile. Fence each context-menu block with separators and set `data-context-menu-boundary` on a tile that owns its menu.
 
 Tiles are inserted in priority order at the moment you add them, so a tile added later still lands in the right place.
