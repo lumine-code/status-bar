@@ -140,7 +140,7 @@ Right panel, from the right edge inwards:
 
 | Priority | Band              | Tiles                                                               |
 | -------- | ----------------- | ------------------------------------------------------------------- |
-| 110      | Application       | settings-view                                                       |
+| 100, 110 | Application       | window-zoom, settings-view                                          |
 | 210–240  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240) |
 | 250      | Code intelligence | ide servers                                                         |
 | 410–430  | File identity     | grammar-selector, encoding-selector, line-ending                    |
