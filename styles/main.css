@@ -79,7 +79,7 @@ status-bar {
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    &:focus-visible {
+    &:not(.accent-control):focus-visible {
       outline: 1px solid var(--accent-indicator-color);
       outline-offset: -1px;
     }

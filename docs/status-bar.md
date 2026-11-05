@@ -94,12 +94,13 @@ Every tile in the bar has the same shape. Following it is not enforced — the b
 
 **Never paint a background inside a tile with `background-color: inherit`.** It resolves to the tile's _computed_ background, so on hover it repaints the theme's translucent colour over itself and the two layers composite into a darker rectangle inside the tile. Use `transparent`.
 
-Two contract classes are honoured on the hosted element:
+Three contract classes are honoured on the hosted element:
 
-| Class          | Effect                                                                                   |
-| -------------- | ---------------------------------------------------------------------------------------- |
-| `is-read-only` | Suppresses hover and press feedback, for a tile that only reports and cannot be clicked. |
-| `is-icon-only` | On an `.icon`, drops the trailing margin its label would otherwise need.                 |
+| Class            | Effect                                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------ |
+| `is-read-only`   | Suppresses hover and press feedback, for a tile that only reports and cannot be clicked.         |
+| `is-icon-only`   | On an `.icon`, drops the trailing margin its label would otherwise need.                         |
+| `accent-control` | Uses the theme's primary button colors and interaction states while keeping the tile's geometry. |
 
 The bar normalises what a widget would otherwise drag in with it. A `<button>` — your tile, or one nested inside it — loses its padding, its own line height and its pointer cursor, so it reads as part of the strip rather than as a control dropped into it. `.inline-block`'s right margin is zeroed wherever it appears here: a panel spaces its tiles with `gap`, and a page-layout margin has no place in a one-line strip.
 
