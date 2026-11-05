@@ -78,6 +78,11 @@ status-bar {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    &:focus-visible {
+      outline: 1px solid var(--accent-indicator-color);
+      outline-offset: -1px;
+    }
   }
 
   /* `.inline-block` is a layout utility, and packages reach for it *inside* a
