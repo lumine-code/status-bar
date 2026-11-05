@@ -85,6 +85,11 @@ status-bar {
     }
   }
 
+  :where(.status-bar-item).accent-control:focus-visible {
+    outline: 1px solid var(--accent-foreground-color);
+    outline-offset: -1px;
+  }
+
   /* `.inline-block` is a layout utility, and packages reach for it *inside* a
      tile to lay out a row of labels. Its right margin is a page-layout size;
      in a one-line strip the panel's gap and the tile's padding do all the
