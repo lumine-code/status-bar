@@ -75,6 +75,7 @@ status-bar {
   .status-bar-item {
     min-width: 0;
     max-width: 20vw;
+    min-block-size: 1lh;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

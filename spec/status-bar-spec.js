@@ -118,6 +118,47 @@ describe("Status Bar package", function () {
   });
 
   describe("the 'status-bar' service", function () {
+    it("keeps icon hover areas as tall as text and respects inset theme controls", () => {
+      jasmine.attachToDOM(workspaceElement);
+      const tiles = [];
+      const registrations = [];
+      for (const layout of ["text", "inline-flex", "inline-grid"]) {
+        const item = document.createElement("status-bar-tile");
+        if (layout === "text") item.textContent = "Status";
+        else {
+          item.style.display = layout;
+          item.style.alignItems = "center";
+          const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          icon.style.cssText = "display:block;width:14px;height:14px";
+          item.append(icon);
+        }
+        tiles.push(item);
+        registrations.push(statusBarService.addLeftTile({ item }));
+      }
+      const previousStyle = statusBar.getAttribute("style");
+      try {
+        for (const height of [22, 30]) {
+          statusBar.style.height = `${height}px`;
+          statusBar.style.lineHeight = `${height}px`;
+          for (const item of tiles) {
+            expect(item.getBoundingClientRect().height).toBe(height);
+            expect(item.getBoundingClientRect().top).toBe(tiles[0].getBoundingClientRect().top);
+          }
+        }
+        for (const item of tiles) {
+          item.style.height = "24px";
+          item.style.lineHeight = "24px";
+          item.style.marginBlock = "3px";
+          expect(item.getBoundingClientRect().height).toBe(24);
+          expect(item.getBoundingClientRect().top - statusBar.getBoundingClientRect().top).toBe(3);
+        }
+      } finally {
+        for (const registration of registrations) registration.destroy();
+        if (previousStyle == null) statusBar.removeAttribute("style");
+        else statusBar.setAttribute("style", previousStyle);
+      }
+    });
+
     it("allows tiles to be added, removed, and retrieved", function () {
       let dummyView = document.createElement("div");
       let tile = statusBarService.addLeftTile({ item: dummyView });

@@ -90,7 +90,7 @@ Every tile in the bar has the same shape. Following it is not enforced — the b
 
 **Content is inline.** An optional `.icon` span, an optional label span, no wrapper element around them. A tile that genuinely composes several parts uses `display: flex; align-items: center; gap:` on the tile itself. Never give a child `.inline-block`: that is a layout utility from core's `layout.css`, and inside a fixed-height tile it aligns on the baseline and hangs past the bottom edge.
 
-**The bar stamps `.status-bar-item` on what it hosts** and removes it again when the tile is destroyed. That class is what a theme keys its padding, height, rounding and hover feedback on, so your tile needs no styling of its own to match the bar. Keyboard focus gets a shared outline using `--accent-indicator-color`, or the paired `--accent-foreground-color` on accent controls; themes may restyle it through `.status-bar-item:focus-visible`.
+**The bar stamps `.status-bar-item` on what it hosts** and removes it again when the tile is destroyed. That class is what a theme keys its padding, height, rounding and hover feedback on, so your tile needs no styling of its own to match the bar. A tile is at least as tall as its inherited line height, so icons and SVGs keep the same hover area as text; themes can set both height and line height for inset controls. Keyboard focus gets a shared outline using `--accent-indicator-color`, or the paired `--accent-foreground-color` on accent controls; themes may restyle it through `.status-bar-item:focus-visible`.
 
 **Never paint a background inside a tile with `background-color: inherit`.** It resolves to the tile's _computed_ background, so on hover it repaints the theme's translucent colour over itself and the two layers composite into a darker rectangle inside the tile. Use `transparent`.
 
@@ -129,13 +129,14 @@ Priorities are grouped into bands of 100, numbered from the outer edge inwards, 
 
 Left panel, from the left edge inwards:
 
-| Priority | Band             | Tiles                                                            |
-| -------- | ---------------- | ---------------------------------------------------------------- |
-| 110, 120 | Repository       | git-center repository, git-center branch                         |
-| 210      | Diagnostics      | linter                                                           |
-| 320      | File identity    | grammar-selector (when shown on the left)                        |
-| 410–450  | Language tooling | jupyter-repl, latex-tools, typst-tools, tasklist-tools, prettier |
-| 510, 520 | View info        | go-to-line cursor position, image-editor size                    |
+| Priority      | Band             | Tiles                                         |
+| ------------- | ---------------- | --------------------------------------------- |
+| 110, 120      | Repository       | git-center repository, git-center branch      |
+| 200           | Tasks            | tasks                                         |
+| 210           | Diagnostics      | linter                                        |
+| 320           | File identity    | grammar-selector (when shown on the left)     |
+| 410, 440, 450 | Language tooling | jupyter-repl, tasklist-tools, code-format     |
+| 510, 520      | View info        | go-to-line cursor position, image-editor size |
 
 Right panel, from the right edge inwards:
 
@@ -145,11 +146,13 @@ Right panel, from the right edge inwards:
 | 210–240  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240) |
 | 250      | Code intelligence | ide servers                                                         |
 | 410–430  | File identity     | grammar-selector, encoding-selector, line-ending                    |
-| 510–530  | Observers         | latex-tools, typst-tools, prettier observed files                   |
+| 530      | Observers         | code-format observed files                                          |
 | 610      | Activity          | busy-signal                                                         |
 | 710, 720 | Warnings          | deprecation-cop, incompatible-packages                              |
 
 Two bands share the 200s: the editor modes take 210–240 and code intelligence 250. They are adjacent kinds — both answer "what is this window doing to my file right now" — and the language-server item belongs outside file identity rather than among the observers, since it is always present.
+
+Tasks uses one icon on the left for project tasks, document compilation and compile-on-save observations. Activating it toggles the bottom panel with execution history and retained logs. Task selection, clearing completed logs and observed-document actions belong in its context menu; compiler providers add no separate build or observer tiles.
 
 ## Behavior
 

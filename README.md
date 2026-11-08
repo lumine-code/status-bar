@@ -43,13 +43,14 @@ Priorities are grouped into bands of 100, numbered from the outer edge inwards, 
 
 Left panel, from the left edge inwards:
 
-| Priority | Band             | Tiles                                                               |
-| -------- | ---------------- | ------------------------------------------------------------------- |
-| 110, 120 | Repository       | git-center repository, git-center branch                            |
-| 210      | Diagnostics      | linter                                                              |
-| 320, 330 | File identity    | grammar-selector (when shown on the left), symbol source            |
-| 410–450  | Language tooling | jupyter-repl, latex-tools, typst-tools, tasklist-tools, prettier    |
-| 510–530  | View info        | go-to-line cursor position, image-editor size, archive-view summary |
+| Priority      | Band             | Tiles                                                               |
+| ------------- | ---------------- | ------------------------------------------------------------------- |
+| 110, 120      | Repository       | git-center repository, git-center branch                            |
+| 200           | Tasks            | tasks                                                               |
+| 210           | Diagnostics      | linter                                                              |
+| 320, 330      | File identity    | grammar-selector (when shown on the left), symbol source            |
+| 410, 440, 450 | Language tooling | jupyter-repl, tasklist-tools, code-format                           |
+| 510–530       | View info        | go-to-line cursor position, image-editor size, archive-view summary |
 
 Right panel, from the right edge inwards:
 
@@ -59,11 +60,13 @@ Right panel, from the right edge inwards:
 | 210–240  | Editor modes      | cursor-leader, column-selection, overtype-mode, invert-colors (240) |
 | 250      | Code intelligence | ide servers                                                         |
 | 405–430  | File identity     | symbol source, grammar-selector, encoding-selector, line-ending     |
-| 510–530  | Observers         | latex-tools, typst-tools, prettier observed files                   |
+| 530      | Observers         | code-format observed files                                          |
 | 610      | Activity          | busy-signal                                                         |
 | 710, 720 | Warnings          | deprecation-cop, incompatible-packages                              |
 
 Two bands share the 200s: the editor modes take 210–240 and code intelligence 250. They are adjacent kinds — both answer "what is this window doing to my file right now" — and the language-server item belongs outside file identity rather than among the observers, since it is always present.
+
+Tasks uses one icon on the left for project tasks, document compilation and compile-on-save observations. Activating it toggles the bottom panel with execution history and retained logs. Task selection, clearing completed logs and observed-document actions belong in its context menu; compiler providers add no separate build or observer tiles.
 
 ## Customization
 
