@@ -25,6 +25,24 @@ describe("Status Bar package", function () {
       expect(workspaceElement.querySelector("status-bar")).toBeNull();
     }));
 
+  it("keeps the default cursor on icon-only status bar tiles", () => {
+    jasmine.attachToDOM(workspaceElement);
+    const customTile = document.createElement("status-bar-tile");
+    customTile.setAttribute("role", "button");
+    const nativeTile = document.createElement("button");
+    nativeTile.type = "button";
+    const tiles = [customTile, nativeTile].map((item) => {
+      item.classList.add("icon-button");
+      return statusBarService.addRightTile({ item });
+    });
+    try {
+      expect(getComputedStyle(customTile).cursor).toBe("default");
+      expect(getComputedStyle(nativeTile).cursor).toBe("default");
+    } finally {
+      for (const tile of tiles) tile.destroy();
+    }
+  });
+
   describe("isVisible option", function () {
     beforeEach(() => jasmine.attachToDOM(workspaceElement));
 
